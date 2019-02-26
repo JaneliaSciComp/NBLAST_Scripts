@@ -30,9 +30,9 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
    1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
    1. **Resample**: A new length to which all segmented edges will be resampled.
    1. **K**: Number of nearest neighbours to use for tangent vector calculation.
-### Perform NBLAST Clustering
+### Run NBLAST Clustering
 1. Launch Fiji.
-1. Run `Plugins>nblast scoremat`.
+1. Run `Plugins>nblast clustering`.
 1. Choose an input score matrix.
 1. Choose an output directory.
 1. Set parameters.
