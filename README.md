@@ -15,7 +15,7 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
 1. Choose an input directory. This plugin support swc and nrrd file formats.
 1. Choose a location to save the database.
 1. Set parameters.
-   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `usr/local/bin/RScript` (Mac and Linux).
+   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
    1. **Resample**: A new length to which all segmented edges will be resampled.
    1. **K**: Number of nearest neighbours to use for tangent vector calculation.
 1. You can use the generated NBLAST database on VVDViewer.
@@ -27,7 +27,7 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
 1. Choose an input directory. This plugin support swc and nrrd file formats.
 1. Choose a location to save the score matrix.
 1. Set parameters.
-   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `usr/local/bin/RScript` (Mac and Linux).
+   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
    1. **Resample**: A new length to which all segmented edges will be resampled.
    1. **K**: Number of nearest neighbours to use for tangent vector calculation.
 ### Perform NBLAST Clustering
@@ -36,7 +36,7 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
 1. Choose an input score matrix.
 1. Choose an output directory.
 1. Set parameters.
-   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `usr/local/bin/RScript` (Mac and Linux).
+   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
    1. **Method**: Clustering method.
    1. **N Clusters**: Number of clusters.
    1. **Height cutoff value**: Height at which to cut tree.
