@@ -89,9 +89,9 @@ public class build_nblastdb implements PlugIn {
 					}
 				}
 			} else if (SystemUtils.IS_OS_MAC_OSX) {
-				defaultRpath = "usr/local/bin/Rscript";
+				defaultRpath = "/usr/local/bin/Rscript";
 			} else if (SystemUtils.IS_OS_LINUX) {
-				defaultRpath = "usr/local/bin/Rscript";
+				defaultRpath = "/usr/local/bin/Rscript";
 			}
 			IJ.log("RScript: " + defaultRpath);
 		} catch (Exception e) {
