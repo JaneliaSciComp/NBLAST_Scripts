@@ -12,7 +12,7 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
 ## Create NBLAST Database
 1. Launch Fiji.
 1. Run `Plugins>build nblastdb`.
-1. Choose an input directory. This plugin support swc and nrrd file formats.
+1. Choose an input directory. This plugin supports swc and nrrd file formats.
 1. Choose a location to save the database.
 1. Set parameters.
    1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
@@ -23,7 +23,7 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
 ## Add Neurons into Existing NBLAST Database
 1. Launch Fiji.
 1. Run `Plugins>build nblastdb`.
-1. Choose an input directory. This plugin support swc and nrrd file formats.
+1. Choose an input directory. This plugin supports swc and nrrd file formats.
 1. Choose a NBLAST database.
 1. Set parameters.
    1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
@@ -34,7 +34,7 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
 ### Generate Score Matrix
 1. Launch Fiji.
 1. Run `Plugins>nblast scoremat`.
-1. Choose an input directory. This plugin support swc and nrrd file formats.
+1. Choose an input directory. This plugin supports swc and nrrd file formats.
 1. Choose a location to save the score matrix.
 1. Set parameters.
    1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
