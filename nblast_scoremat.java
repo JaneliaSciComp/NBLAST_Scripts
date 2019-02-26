@@ -100,7 +100,7 @@ public class nblast_scoremat implements PlugIn {
 	}
 
 	public boolean showDialog() {
-        GenericDialog gd = new GenericDialog("Build NBLAST Database");
+        GenericDialog gd = new GenericDialog("Generate NBLAST Score Matrix");
 
         if ( !new File(m_rscript).isFile() )
         	m_rscript = getDefaultRPath();

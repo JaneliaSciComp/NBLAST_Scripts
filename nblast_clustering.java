@@ -106,7 +106,7 @@ public class nblast_clustering implements PlugIn {
 	}
 
 	public boolean showDialog() {
-        GenericDialog gd = new GenericDialog("Build NBLAST Database");
+        GenericDialog gd = new GenericDialog("NBLAST Clustering");
 
         if ( !new File(m_rscript).isFile() )
         	m_rscript = getDefaultRPath();
@@ -145,7 +145,7 @@ public class nblast_clustering implements PlugIn {
 	public void run(String arg) {
 
 		IJ.log("input score matrix");
-		OpenDialog ind = new OpenDialog("inout score matrix");
+		OpenDialog ind = new OpenDialog("input score matrix");
 		if (ind.getFileName() == null) return;
 		String indir = ind.getDirectory();
 		String inpath = indir + ind.getFileName();
