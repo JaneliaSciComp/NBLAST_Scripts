@@ -220,11 +220,11 @@ public class build_nblastdb implements PlugIn {
 					IJ.run( "swc draw single", 
 							"input=" + srcswcpath + " " +
 							"output=" + dstmippath + " " +
-							"width=1024 " +
-							"height=512 " +
-							"depth=218 " +
-							"voxel_w=0.6200000 " +
-							"voxel_h=0.6200000 " +
+							"width=1210 " +
+							"height=566 " +
+							"depth=174 " +
+							"voxel_w=0.5189161 " +
+							"voxel_h=0.5189161 " +
 							"voxel_d=1.0000000 " +
 							"radius=1");
 					count++;
@@ -242,11 +242,11 @@ public class build_nblastdb implements PlugIn {
 			IJ.run("swc draw2", 
 				"input=" + indir + " " +
 				"output=" + mipdirpath + " " +
-				"width=1024 " +
-				"height=512 " +
-				"depth=218 " +
-				"voxel_w=0.6200000 " +
-				"voxel_h=0.6200000 " +
+				"width=1210 " +
+				"height=566 " +
+				"depth=174 " +
+				"voxel_w=0.5189161 " +
+				"voxel_h=0.5189161 " +
 				"voxel_d=1.0000000 " +
 				"radius=1");
 			IJ.log("--------     (DONE)      --------\n");
