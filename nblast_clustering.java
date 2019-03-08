@@ -156,10 +156,6 @@ public class nblast_clustering implements PlugIn {
 		String outdir = dcout.getDirectory();
 		if (outdir == null) return;
 
-		indir.replace(File.separator, "/");
-		inpath.replace(File.separator, "/");
-		outdir.replace(File.separator, "/");
-
 		String swcdir = indir + label + "swc" + File.separator;
 		String mipdir = indir + label + "mip" + File.separator;
 		

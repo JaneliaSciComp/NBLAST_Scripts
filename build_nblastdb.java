@@ -143,10 +143,6 @@ public class build_nblastdb implements PlugIn {
 		if ( new File(outpath).isFile() )
 			append = true;
 
-		indir.replace(File.separator, "/");
-		outdir.replace(File.separator, "/");
-		outpath.replace(File.separator, "/");
-		
 		IJ.log("INPUT: " + indir);
 		IJ.log("OUTDIR: " + outdir);
 		IJ.log("OUTPUT: " + outpath);

@@ -79,18 +79,21 @@ dstkm <- attr(nlfhdst, "keyfilemap")
 
 #delete duplicates
 idnums <- which( names(dstkm) %in% names(nladd) )
-for (i in 1:length(idnums)) {
-  fname <- file.path( dstddir, dstkm[[ idnums[i] ]] )
-  file.remove(fname)
-  print(paste("remove dup: ", fname))
-}
 if (length(idnums) > 0) {
-  delids <- sapply(idnums, "*", -1)
-  dstkm <- dstkm[delids]
+  for (i in 1:length(idnums)) {
+    fname <- file.path( dstddir, dstkm[[ idnums[i] ]] )
+    file.remove(fname)
+    print(paste("remove dup: ", fname))
+  }
+  if (length(idnums) > 0) {
+    delids <- sapply(idnums, "*", -1)
+    dstkm <- dstkm[delids]
+  }
 }
 
 #add neurons into dst database
 nlfhadd <- as.neuronlistfh(nladd, dbdir=dstddir)
+if (length(nlfhadd) <= 0) stop("length of the source neuron list is zero", call.=FALSE)
 addkm <- attr(nlfhadd, "keyfilemap")
 
 rkm <- c(dstkm, addkm)

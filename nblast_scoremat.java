@@ -138,10 +138,6 @@ public class nblast_scoremat implements PlugIn {
 		String outpath = outdir + outsm.getFileName();
 		String label = FilenameUtils.getBaseName(outsm.getFileName()) + "_";
 
-		indir.replace(File.separator, "/");
-		outdir.replace(File.separator, "/");
-		outpath.replace(File.separator, "/");
-		
 		IJ.log("INPUT: " + indir);
 		IJ.log("OUTDIR: " + outdir);
 		IJ.log("OUTPUT: " + outpath);
