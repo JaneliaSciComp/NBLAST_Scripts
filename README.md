@@ -23,6 +23,19 @@ https://github.com/JaneliaSciComp/NBLAST_Scripts/releases
    1. **K**: Number of nearest neighbours to use for tangent vector calculation.
 1. You can use the generated NBLAST database on VVDViewer.
 
+## NBLAST Search
+1. Launch Fiji.
+1. Run `Plugins>nblast search`.
+1. Choose an input directory. This plugin supports swc and nrrd file formats.
+1. Choose a location of the NBLAST database.
+1. Choose an output directory.
+1. Set parameters.
+   1. **RScript**: Set the file path to the Rscript. The default path to the RScript is `C:\Program Files\R\R-x.x.x\bin\RScript.exe` (Windows) or `/usr/local/bin/RScript` (Mac and Linux).
+   1. **Resample**: A new length to which all segmented edges will be resampled.
+   1. **K**: Number of nearest neighbours to use for tangent vector calculation.
+   1. **Scoring Method**: Scoring method for NBLAST. The "mean" score is an avarage of normalized forward and reverse scores.
+   1. **Number of Results**: Maximum number of seach results.
+1. You can import the results on VVDViewer.
 
 ## Perform NBLAST Clustering
 ### Generate Score Matrix
