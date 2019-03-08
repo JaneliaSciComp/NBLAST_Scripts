@@ -20,11 +20,11 @@ public class swc_draw_single_3d implements PlugIn {
 	static final String RADIUS = "SWCD.radius.int";
 	static final String IGNORE = "SWCD.ignore.boolean";
 
-	int m_w = (int)Prefs.get(WIDTH, 1024);
-	int m_h = (int)Prefs.get(HEIGHT, 512);
-	int m_d = (int)Prefs.get(DEPTH, 218);
-	double m_vw = (double)Prefs.get(VOXELW, 0.6200000);
-	double m_vh = (double)Prefs.get(VOXELH, 0.6200000);
+	int m_w = (int)Prefs.get(WIDTH, 1210);
+	int m_h = (int)Prefs.get(HEIGHT, 566);
+	int m_d = (int)Prefs.get(DEPTH, 174);
+	double m_vw = (double)Prefs.get(VOXELW, 0.5189161);
+	double m_vh = (double)Prefs.get(VOXELH, 0.5189161);
 	double m_vd = (double)Prefs.get(VOXELD, 1.0000000);
 	int m_r = (int)Prefs.get(RADIUS, 1);
 	boolean m_ignore = (boolean)Prefs.get(IGNORE, false);
