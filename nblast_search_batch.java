@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import org.apache.commons.io.*;
 import org.apache.commons.lang3.SystemUtils;
 
-public class nblast_search implements PlugIn {
+public class nblast_search_batch implements PlugIn {
 
 	static final String RSCRIPT = "NBSH.RScript.string";
 	static final String RESAMPLE = "NBSH.resample.double";
