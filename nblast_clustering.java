@@ -93,7 +93,9 @@ public class nblast_clustering implements PlugIn {
 					}
 				}
 			} else if (SystemUtils.IS_OS_MAC_OSX) {
-				defaultRpath = "/usr/local/bin/RScript";
+				defaultRpath = "/Library/Frameworks/R.framework/Resources/bin/Rscript";
+				if ( !new File(defaultRpath).isFile() )
+					defaultRpath = "/usr/local/bin/RScript";
 			} else if (SystemUtils.IS_OS_LINUX) {
 				defaultRpath = "/usr/local/bin/RScript";
 			}
@@ -111,7 +113,7 @@ public class nblast_clustering implements PlugIn {
         if ( !new File(m_rscript).isFile() )
         	m_rscript = getDefaultRPath();
 		
-		gd.addStringField("RScript", m_rscript);
+		gd.addStringField("RScript", m_rscript, 50);
 		gd.addChoice("method", Methods, m_mtd);
 		gd.addNumericField("N_clusters", m_k, 0);
 		gd.addNumericField("height cutoff value", m_h, 2);

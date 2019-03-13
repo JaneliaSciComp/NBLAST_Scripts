@@ -13,20 +13,20 @@ import java.math.BigInteger;
 import org.apache.commons.io.*;
 import org.apache.commons.lang3.SystemUtils;
 
-public class nblast_scoremat implements PlugIn {
+public class nblast_scoremat_nlfh implements PlugIn {
 
 	static final String RSCRIPT = "NBSM.RScript.string";
-	static final String RESAMPLE = "NBSM.resample.double";
-	static final String KVAL = "NBSM.kval.int";
+	static final String THREADS = "NBSM.threads.int";
+	static final String OUTPUTFNAME = "NBSM.output.string";
 
-	static final String SCMAT_SCRIPT = IJ.getDirectory("plugins") + File.separator + "scorematrix.R";
+	static final String SCMAT_SCRIPT = IJ.getDirectory("plugins") + File.separator + "scorematrix_nlfh.R";
 
 	static final Pattern NUMBERS = Pattern.compile("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 
 	String m_defaultRpath = "RScript";
 	String m_rscript = Prefs.get(RSCRIPT, m_defaultRpath);
-	double m_rsmp = (double)Prefs.get(RESAMPLE, 3.0);
-	int m_k = (int)Prefs.get(KVAL, 3);
+	int m_threads = (int)Prefs.get(THREADS, 0);
+	String m_outfname = Prefs.get(OUTPUTFNAME, "scoremat.obj");
 
 	public String getDefaultRPath() {
 		String defaultRpath = "RScript";
@@ -108,8 +108,9 @@ public class nblast_scoremat implements PlugIn {
         	m_rscript = getDefaultRPath();
 		
 		gd.addStringField("RScript", m_rscript, 50);
-		gd.addNumericField("Resample",  m_rsmp, 2);
-		gd.addNumericField("K",  m_k, 0);
+		gd.addNumericField("Threads", m_threads, 0);
+		gd.addStringField("Output file name", m_outfname, 30);
+		gd.setInsets(20, 372, 0);
 		
 		gd.showDialog();
 		if(gd.wasCanceled()){
@@ -117,89 +118,51 @@ public class nblast_scoremat implements PlugIn {
 		}
 		
 		m_rscript = gd.getNextString();
-		m_rsmp = (double)gd.getNextNumber();
-		m_k = (int)gd.getNextNumber();
+		m_threads = (int)gd.getNextNumber();
+		m_outfname = gd.getNextString();
 		
 		Prefs.set(RSCRIPT, m_rscript);
-		Prefs.set(RESAMPLE, m_rsmp);
-		Prefs.set(KVAL, m_k);
+		Prefs.set(THREADS, m_threads);
+		Prefs.set(OUTPUTFNAME, m_outfname);
 		
         return true;
     }
 
 	public void run(String arg) {
 
-		IJ.log("Choose an input directory");
-		DirectoryChooser dcin = new DirectoryChooser("input directory");
-		String indir = dcin.getDirectory();
-		if (indir == null) return;
-		IJ.log("Save NBLAST score matrix");
-		SaveDialog outsm = new SaveDialog("Save NBLAST score matrix", "scorematrix", ".obj");
-		if (outsm.getFileName() == null) return;
-		String outdir = outsm.getDirectory();
-		String outpath = outdir + outsm.getFileName();
-		String label = FilenameUtils.getBaseName(outsm.getFileName()) + "_";
+		IJ.log("Choose a NBLAST database");
+		OpenDialog indbdlg = new OpenDialog("NBLAST database");
+		if (indbdlg.getFileName() == null) return;
+		String indbdir = indbdlg.getDirectory();
+		String indbpath = indbdir + indbdlg.getFileName();
 
-		IJ.log("INPUT: " + indir);
-		IJ.log("OUTDIR: " + outdir);
-		IJ.log("OUTPUT: " + outpath);
+		IJ.log("INPUT: " + indbpath);
+		IJ.log("OUTDIR: " + indbdir);
 		
 		if (!showDialog())
 			return;
 
+		String outpath = indbdir + m_outfname;
+		IJ.log("OUTPUT: " + outpath);
+
 		int count = 0;
 
 		try {
-			IJ.log("-------- Generating Score Matrix --------");
+			IJ.log("Generating Score Matrix...");
 			String[] new_listCommands = {
 						m_rscript,
 						SCMAT_SCRIPT,
-						indir,
+						indbpath,
 						outpath,
-						String.valueOf(m_rsmp),
-						String.valueOf(m_k)
+						String.valueOf(m_threads)
 					};
 			RThread rth = new RThread(new_listCommands);
 			rth.start();
 			rth.join();
 			IJ.log(rth.getStdOut());
 			IJ.log(rth.getStdErr());
-			IJ.log("--------           (DONE)            --------\n");
+			IJ.log("DONE");
 
-
-			IJ.log("-------- Generating MIPs --------");
-			String swcdirpath = outdir + label + "swc" + File.separator;
-			String mipdirpath = outdir + label + "mip" + File.separator;
-			File mipdir = new File(mipdirpath);
-			if (!mipdir.exists())
-				mipdir.mkdirs();
-			final File folder = new File(dcin.getDirectory());
-			for (final File fileEntry : folder.listFiles()) {
-				String ext = FilenameUtils.getExtension(fileEntry.getName());
-				if (!ext.equals("swc") && !ext.equals("nrrd"))
-					continue;
-				String swcname = FilenameUtils.getBaseName(fileEntry.getName()) + ".swc";
-				String mipname = FilenameUtils.getBaseName(fileEntry.getName()) + ".png";
-				String srcswcpath = swcdirpath + swcname;
-				String dstmippath = mipdirpath + mipname;
-				if ( new File(srcswcpath).isFile() ) {
-					IJ.run( "swc draw single", 
-							"input=" + srcswcpath + " " +
-							"output=" + dstmippath + " " +
-							"width=1210 " +
-							"height=566 " +
-							"depth=174 " +
-							"voxel_w=0.5189161 " +
-							"voxel_h=0.5189161 " +
-							"voxel_d=1.0000000 " +
-							"radius=1");
-					count++;
-				}
-			}
-			IJ.log("Files: " + folder.listFiles().length);
-			IJ.log("Generated MIPs: " + count);
-			IJ.log("--------     (DONE)      --------\n");
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

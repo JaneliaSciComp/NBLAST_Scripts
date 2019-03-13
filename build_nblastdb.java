@@ -89,7 +89,9 @@ public class build_nblastdb implements PlugIn {
 					}
 				}
 			} else if (SystemUtils.IS_OS_MAC_OSX) {
-				defaultRpath = "/usr/local/bin/RScript";
+				defaultRpath = "/Library/Frameworks/R.framework/Resources/bin/Rscript";
+				if ( !new File(defaultRpath).isFile() )
+					defaultRpath = "/usr/local/bin/RScript";
 			} else if (SystemUtils.IS_OS_LINUX) {
 				defaultRpath = "/usr/local/bin/RScript";
 			}
@@ -107,7 +109,7 @@ public class build_nblastdb implements PlugIn {
         if ( !new File(m_rscript).isFile() )
         	m_rscript = getDefaultRPath();
 		
-		gd.addStringField("RScript",  m_rscript);
+		gd.addStringField("RScript", m_rscript, 50);
 		gd.addNumericField("Resample",  m_rsmp, 2);
 		gd.addNumericField("K",  m_k, 0);
 		

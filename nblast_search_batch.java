@@ -20,6 +20,7 @@ public class nblast_search_batch implements PlugIn {
 	static final String KVAL = "NBSH.kval.int";
 	static final String NORMALIZATION = "NBSH.normalization.string";
 	static final String RESULTNUM = "NBSH.resultnum.int";
+	static final String THREADS = "NBSH.threads.int";
 
 	static final String SEARCH_SCRIPT = IJ.getDirectory("plugins") + File.separator + "nblast_search.R";
 
@@ -33,6 +34,7 @@ public class nblast_search_batch implements PlugIn {
 	int m_k = (int)Prefs.get(KVAL, 3);
 	String m_mtd = Prefs.get(NORMALIZATION, "mean");
 	int m_rnum = (int)Prefs.get(RESULTNUM, 300);
+	int m_threads = (int)Prefs.get(THREADS, 0);
 	
 
 	public String getDefaultRPath() {
@@ -94,7 +96,9 @@ public class nblast_search_batch implements PlugIn {
 					}
 				}
 			} else if (SystemUtils.IS_OS_MAC_OSX) {
-				defaultRpath = "usr/local/bin/Rscript";
+				defaultRpath = "/Library/Frameworks/R.framework/Resources/bin/Rscript";
+				if ( !new File(defaultRpath).isFile() )
+					defaultRpath = "/usr/local/bin/RScript";
 			} else if (SystemUtils.IS_OS_LINUX) {
 				defaultRpath = "usr/local/bin/Rscript";
 			}
@@ -112,11 +116,12 @@ public class nblast_search_batch implements PlugIn {
         if ( !new File(m_rscript).isFile() )
         	m_rscript = getDefaultRPath();
 		
-		gd.addStringField("RScript",  m_rscript);
+		gd.addStringField("RScript", m_rscript, 50);
 		gd.addNumericField("Resample",  m_rsmp, 2);
 		gd.addNumericField("K",  m_k, 0);
 		gd.addChoice("Scoring method", Methods, m_mtd);
 		gd.addNumericField("Number of Results",  m_rnum, 0);
+		gd.addNumericField("Threads",  m_threads, 0);
 		
 		gd.showDialog();
 		if(gd.wasCanceled()){
@@ -128,12 +133,14 @@ public class nblast_search_batch implements PlugIn {
 		m_k = (int)gd.getNextNumber();
 		m_mtd = gd.getNextChoice();
 		m_rnum = (int)gd.getNextNumber();
+		m_threads = (int)gd.getNextNumber();
 		
 		Prefs.set(RSCRIPT, m_rscript);
 		Prefs.set(RESAMPLE, m_rsmp);
 		Prefs.set(KVAL, m_k);
 		Prefs.set(NORMALIZATION, m_mtd);
 		Prefs.set(RESULTNUM, m_rnum);
+		Prefs.set(THREADS, m_threads);
 		
         return true;
     }
@@ -180,7 +187,8 @@ public class nblast_search_batch implements PlugIn {
 						dbname,
 						m_mtd,
 						String.valueOf(m_rsmp),
-						String.valueOf(m_k)
+						String.valueOf(m_k),
+						String.valueOf(m_threads)
 					};
 			RThread rth = new RThread(listCommands);
 			rth.start();

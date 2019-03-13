@@ -57,6 +57,13 @@ if (length(args) >= 9) {
   kval = 3
 }
 
+if (length(args) >= 10) {
+  thnum = strtoi(args[10])
+  if (is.na(thnum)) thnum = 0
+} else {
+  thnum = 0
+}
+
 cat("Loading NAT...")
 
 if (!require("nat",character.only = TRUE)) {
@@ -121,9 +128,9 @@ innl <- c(nlswc, nlnrrd)
 
 
 cat("Initializing threads...\n")
-th = parallel::detectCores()-1
-if (th < 1) th = 1
-cl <- parallel::makeCluster(th, outfile="")
+thmax = parallel::detectCores()-1
+if ( (thnum < 1) || (thnum > thmax) ) thnum = thmax
+cl <- parallel::makeCluster(thnum, outfile="")
 
 
 tryCatch({
@@ -132,7 +139,7 @@ tryCatch({
   cat("Loading NBLAST library into each thread...\n")
   clusterCall(cl, function() suppressMessages(library(nat.nblast)))
   
-  sprintf("thread num: %i", th)
+  sprintf("thread num: %i", thnum)
   cat("Running NBLAST...\n")
   
   for (nid in 1:length(innl)) {
@@ -146,9 +153,9 @@ tryCatch({
       cat(paste(nl, "\n"))
       dp <- read.neuronlistfh(nl, localdir=dirname(nl))
       
-      a <- seq(1, length(dp), by=length(dp)%/%th)
-      b <- seq(length(dp)%/%th, length(dp), by=length(dp)%/%th)
-      if (length(dp)%%th > 0) {
+      a <- seq(1, length(dp), by=length(dp)%/%thnum)
+      b <- seq(length(dp)%/%thnum, length(dp), by=length(dp)%/%thnum)
+      if (length(dp)%%thnum > 0) {
         b <- c(b, length(dp))
       }
       
