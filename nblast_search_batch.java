@@ -33,7 +33,7 @@ public class nblast_search_batch implements PlugIn {
 	double m_rsmp = (double)Prefs.get(RESAMPLE, 4.0);
 	int m_k = (int)Prefs.get(KVAL, 3);
 	String m_mtd = Prefs.get(NORMALIZATION, "mean");
-	int m_rnum = (int)Prefs.get(RESULTNUM, 300);
+	int m_rnum = (int)Prefs.get(RESULTNUM, 100);
 	int m_threads = (int)Prefs.get(THREADS, 0);
 	
 

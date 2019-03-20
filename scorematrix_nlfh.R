@@ -31,13 +31,20 @@ nlibs = nlibs[[1]]
 
 dstpath = args[2]
 
-cat(paste("DATABASE: ", nlibpath))
-cat(paste("DSTPATH: ", dstpath))
+if (length(args) >= 3) {
+  thnum = strtoi(args[3])
+  if (is.na(thnum)) thnum = 0
+} else {
+  thnum = 0
+}
+
+cat( paste0(paste("DATABASE: ", nlibpath), "\n") )
+cat( paste0(paste("DSTPATH: ", dstpath), "\n") )
 
 cat("Initializing threads...\n")
-th = parallel::detectCores()-1
-if (th < 1) th = 1
-cl <- parallel::makeCluster(th, outfile="")
+thmax = parallel::detectCores()-1
+if ( (thnum < 1) || (thnum > thmax) ) thnum = thmax
+cl <- parallel::makeCluster(thnum, outfile="")
 
 tryCatch({
   
@@ -45,16 +52,16 @@ tryCatch({
   cat("Loading NBLAST library into each thread...\n")
   clusterCall(cl, function() suppressMessages(library(nat.nblast)))
   
-  sprintf("thread num: %i", th)
+  sprintf("thread num: %i", thnum)
   cat("Running NBLAST...\n")
   
   nl <- nlibs[[1]]
   cat(paste(nl, "\n"))
   dp <- read.neuronlistfh(nl, localdir=dirname(nl))
   
-  a <- seq(1, length(dp), by=length(dp)%/%th)
-  b <- seq(length(dp)%/%th, length(dp), by=length(dp)%/%th)
-  if (length(dp)%%th > 0) {
+  a <- seq(1, length(dp), by=length(dp)%/%thnum)
+  b <- seq(length(dp)%/%thnum, length(dp), by=length(dp)%/%thnum)
+  if (length(dp)%%thnum > 0) {
     b <- c(b, length(dp))
   }
   
@@ -68,7 +75,7 @@ tryCatch({
   }
   
   smat <- scores[[1]]
-  if (length(scores) > 2) {
+  if (length(scores) >= 2) {
     for (i in 2:length(scores)) {
       smat <- cbind(smat, scores[[i]])
     }

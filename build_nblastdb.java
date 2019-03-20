@@ -198,6 +198,25 @@ public class build_nblastdb implements PlugIn {
 			IJ.log(rth.getStdErr());
 			IJ.log("--------           (DONE)            --------\n");
 
+
+			IJ.log("-------- Copying SWCs --------");
+			count = 0;
+			String dstswcdirpath = outdb.getDirectory() + "swc" + File.separator;
+			File dstswcdir = new File(dstswcdirpath);
+			if (!dstswcdir.exists())
+				dstswcdir.mkdirs();
+			final File folder = new File(dcin.getDirectory());
+			for (final File fileEntry : folder.listFiles()) {
+				if (!FilenameUtils.getExtension(fileEntry.getName()).equals("swc"))
+					continue;
+				String dstpath = dstswcdirpath + fileEntry.getName();
+				FileUtils.copyFile(fileEntry, new File(dstpath));
+				count++;
+			}
+			IJ.log("Copied SWCs: " + count);
+			IJ.log("--------    (DONE)    --------\n");
+
+
 			IJ.log("-------- Generating MIPs --------");
 			count = 0;
 			String swcdirpath = outdb.getDirectory() + "swc" + File.separator;
@@ -205,7 +224,6 @@ public class build_nblastdb implements PlugIn {
 			File mipdir = new File(mipdirpath);
 			if (!mipdir.exists())
 				mipdir.mkdirs();
-			final File folder = new File(dcin.getDirectory());
 			for (final File fileEntry : folder.listFiles()) {
 				String ext = FilenameUtils.getExtension(fileEntry.getName());
 				if (!ext.equals("swc") && !ext.equals("nrrd"))
@@ -231,24 +249,7 @@ public class build_nblastdb implements PlugIn {
 			IJ.log("Files: " + folder.listFiles().length);
 			IJ.log("Generated MIPs: " + count);
 			IJ.log("--------     (DONE)      --------\n");
-/*
-			IJ.log("-------- Generating MIPs --------");
-			String mipdirpath = outdb.getDirectory() + "swc_prev" + File.separator;
-			File mipdir = new File(mipdirpath);
-			if (!mipdir.exists())
-				mipdir.mkdirs();
-			IJ.run("swc draw2", 
-				"input=" + indir + " " +
-				"output=" + mipdirpath + " " +
-				"width=1210 " +
-				"height=566 " +
-				"depth=174 " +
-				"voxel_w=0.5189161 " +
-				"voxel_h=0.5189161 " +
-				"voxel_d=1.0000000 " +
-				"radius=1");
-			IJ.log("--------     (DONE)      --------\n");
-*/
+
 
 			IJ.log("-------- Generating Thumbnails --------");
 			count = 0;
@@ -278,20 +279,6 @@ public class build_nblastdb implements PlugIn {
 			IJ.log("Generated Thumbnails: " + count);
 			IJ.log("--------        (DONE)        --------\n");
 
-/*
-			IJ.log("-------- Copying SWCs --------");
-			String dstswcdirpath = outdb.getDirectory() + "swc" + File.separator;
-			File dstswcdir = new File(dstswcdirpath);
-			if (!dstswcdir.exists())
-				dstswcdir.mkdirs();
-			for (final File fileEntry : folder.listFiles()) {
-				if (!FilenameUtils.getExtension(fileEntry.getName()).equals("swc"))
-					continue;
-				String dstpath = dstswcdirpath + fileEntry.getName();
-				FileUtils.copyFile(fileEntry, new File(dstpath));
-			}
-			IJ.log("--------    (DONE)    --------\n");
-*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();

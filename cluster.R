@@ -42,14 +42,14 @@ if (length(args) >= 6) {
 }
 
 if (length(args) >= 7) {
-  hval = strtoi(args[7])
+  hval = as.double(args[7])
   if (is.na(hval)) hval = 0.0
 } else {
   hval = 0.0
 }
 
 score_matrix <- readRDS(scmatpath)
-hckcs <- nhclust(scoremat=score_matrix, method=mtd)
+hckcs <- nhclust(scoremat=score_matrix, method=mtd, maxneurons=500000)
 if (hval <= 0.0) {
   sl <- slice(hckcs, k=kval)
   dkcs <- colour_clusters(hckcs, k=kval, col=randomColor(length(unique(sl)), hue = "random", luminosity="bright"))
@@ -65,7 +65,7 @@ for (i in 1:length(labels(dkcs))) {
   str <- paste(labels(dkcs)[[i]], sl[[labels(dkcs)[[i]]]])
   newlabel[[i]] <- str
 }
-labels(dkcs) <- newlabel;
+labels(dkcs) <- newlabel
 
 svgw <- 15.0*(nrow(score_matrix)/50.0)
 if (svgw < 15.0) svgw <- 15.0
@@ -78,22 +78,26 @@ dev.off()
 
 if (dir.exists(swcd) || dir.exists(mipd)) {
   clusters_dir <- file.path(od,"clusters")
-  strw <- nchar(toString(length(unique(sl)), width=5))
+  strw <- nchar( toString(format(length(unique(sl)), scientific = F)) )
   for (i in 1:length(sl)) {
-    dirname <- paste("cluster_", formatC(sl[[i]], width = strw, format = "d", flag = "0"), sep="")
-    cdir <- file.path( clusters_dir, dirname )
-    dir.create(cdir, recursive = TRUE)
-    swcname <- paste(names(sl)[[i]], ".swc", sep="")
-    dstpath <- file.path(cdir, swcname)
-    srcpath <- file.path(swcd, swcname)
-    if (file.exists(srcpath)) {
-      file.copy(srcpath, dstpath, overwrite=TRUE)
-    }
-    pngname <- paste(names(sl)[[i]], ".png", sep="")
-    dstpath <- file.path(cdir, pngname)
-    srcpath <- file.path(mipd, pngname)
-    if (file.exists(srcpath)) {
-      file.copy(srcpath, dstpath, overwrite=TRUE)
-    }
+    tryCatch({
+      dirname <- paste("cluster_", formatC(sl[[i]], width = strw, format = "d", flag = "0"), sep="")
+      cdir <- file.path( clusters_dir, dirname )
+      dir.create(cdir, recursive = TRUE)
+      swcname <- paste(names(sl)[[i]], ".swc", sep="")
+      dstpath <- file.path(cdir, swcname)
+      srcpath <- file.path(swcd, swcname)
+      if (file.exists(srcpath)) {
+        file.copy(srcpath, dstpath, overwrite=TRUE)
+      }
+      pngname <- paste(names(sl)[[i]], ".png", sep="")
+      dstpath <- file.path(cdir, pngname)
+      srcpath <- file.path(mipd, pngname)
+      if (file.exists(srcpath)) {
+        file.copy(srcpath, dstpath, overwrite=TRUE)
+      }
+    }, error=function(e){
+      cat("ERROR :", conditionMessage(e), "\n")
+    })
   }
 }

@@ -132,14 +132,14 @@ public class nblast_clustering implements PlugIn {
 		m_h = (double)gd.getNextNumber();
 		m_useh = gd.getNextRadioButton().equals(items[1]);
 
-		if (m_useh) m_k = -1;
-		else m_h = -1.0;
-		
 		Prefs.set(RSCRIPT, m_rscript);
 		Prefs.set(METHOD, m_mtd);
 		Prefs.set(KVAL, m_k);
 		Prefs.set(HVAL, m_h);
 		Prefs.set(USEH, m_useh);
+
+		if (m_useh) m_k = -1;
+		else m_h = -1.0;
 		
         return true;
     }
@@ -158,8 +158,8 @@ public class nblast_clustering implements PlugIn {
 		String outdir = dcout.getDirectory();
 		if (outdir == null) return;
 
-		String swcdir = indir + label + "swc" + File.separator;
-		String mipdir = indir + label + "mip" + File.separator;
+		String swcdir = indir + File.separator + "swc" + File.separator;
+		String mipdir = indir + File.separator + "swc_prev" + File.separator;
 		
 		IJ.log("inpput dir: " + indir);
 		IJ.log("score matrix: " + inpath);
