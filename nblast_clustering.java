@@ -158,8 +158,8 @@ public class nblast_clustering implements PlugIn {
 		String outdir = dcout.getDirectory();
 		if (outdir == null) return;
 
-		String swcdir = indir + File.separator + "swc" + File.separator;
-		String mipdir = indir + File.separator + "swc_prev" + File.separator;
+		String swcdir = indir + File.separator + "swc";
+		String mipdir = indir + File.separator + "swc_prev";
 		
 		IJ.log("inpput dir: " + indir);
 		IJ.log("score matrix: " + inpath);
