@@ -60,11 +60,7 @@ if (hval <= 0.0) {
 
 print(length(unique(sl)))
 
-newlabel <- list()
-for (i in 1:length(labels(dkcs))) {
-  str <- paste(labels(dkcs)[[i]], sl[[labels(dkcs)[[i]]]])
-  newlabel[[i]] <- str
-}
+newlebel <- paste(labels(dkcs), sl)
 labels(dkcs) <- newlabel
 
 svgw <- 15.0*(nrow(score_matrix)/50.0)
