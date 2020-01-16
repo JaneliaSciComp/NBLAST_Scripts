@@ -1,5 +1,4 @@
-# NBLAST_Scripts
-
+# NBLAST_Scripts [![LinkToJanelia](../image/HHMI_Janelia_Color_Alternate_180x40.png)](https://www.janelia.org)
 These scripts allow users to create NBLAST databases and to perform NBLAST clustering without any coding.
 
 ## Precompiled Binaries
